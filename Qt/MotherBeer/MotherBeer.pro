@@ -4,8 +4,7 @@ QT += qml quick widgets
 
 SOURCES += main.cpp \
     udpannouncer.cpp \
-    mytcpserver.cpp \
-    backend.cpp
+    mytcpserver.cpp
 
 RESOURCES += qml.qrc
 
@@ -17,5 +16,4 @@ include(deployment.pri)
 
 HEADERS += \
     udpannouncer.h \
-    mytcpserver.h \
-    backend.h
+    mytcpserver.h

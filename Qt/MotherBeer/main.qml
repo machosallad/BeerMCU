@@ -24,16 +24,16 @@ ApplicationWindow {
     }
 
     Button{
-        text: backend.isRunnning ? "Stop server" : "Start server"
+        text: udpAnnouncer.isBroadcasting ? "Stop UDP server" : "Start UDP server"
         anchors.centerIn: parent
-        onClicked: backend.startStopServer()
+        onClicked: udpAnnouncer.startBroadcasting()
     }
 
     statusBar: StatusBar
     {
         Text {
             id: name
-            text: backend.isRunnning ? "Server Running" : "Server not running"
+            text: udpAnnouncer.isBroadcasting ? "UDP Running" : "UDP Not running"
         }
     }
 
