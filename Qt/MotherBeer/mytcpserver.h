@@ -5,6 +5,9 @@
 #include <QTcpSocket>
 #include <QTcpServer>
 #include <QDebug>
+#include <QSignalMapper>
+#include <QtCore>
+#include <QtNetwork>
 class MyTcpServer : public QObject
 {
     Q_OBJECT
@@ -16,10 +19,15 @@ signals:
 
 public slots:
     void newConnection();
+    void clientReadyRead();
+    void startServer();
+    void stopServer();
 
 private:
     QTcpServer *m_tcpServer;
-    QList<*QTcpSocket> m_clientConnections;
+    QList<QTcpSocket*> m_clientConnections;
+    QSignalMapper *m_signalMapper;
+    QMap<QTcpSocket*,QString> m_clientIDs;
 };
 
 #endif // MYTCPSERVER_H

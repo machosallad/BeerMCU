@@ -2,6 +2,7 @@
 
 UdpAnnouncer::UdpAnnouncer(QObject *parent) : QObject(parent)
 {
+    m_isBroadcasting = false;
     m_txTimer = new QTimer(this);
     m_udpSocket = new QUdpSocket(this);
     connect(m_txTimer,&QTimer::timeout,this,&UdpAnnouncer::transmitMsg);
@@ -17,19 +18,18 @@ bool UdpAnnouncer::isBroadcasting() const
     return m_isBroadcasting;
 }
 
+void UdpAnnouncer::stopBroadcasting()
+{
+    setIsBroadcasting(true);
+    qDebug() << "Stop broadcasting server on IP:" << getLocalIp();
+    m_txTimer->stop();
+}
+
 void UdpAnnouncer::startBroadcasting()
 {
-    setIsBroadcasting(!m_isBroadcasting);
-    if(m_isBroadcasting)
-    {
-        qDebug() << "Start broadcasting server IP";
-        m_txTimer->start(1000);
-    }
-    else
-    {
-        qDebug() << "Stop broadcasting server IP";
-        m_txTimer->stop();
-    }
+    setIsBroadcasting(false);
+    qDebug() << "Start broadcasting server on IP:" << getLocalIp();
+    m_txTimer->start(1000);
 }
 
 void UdpAnnouncer::setIsBroadcasting(bool arg)

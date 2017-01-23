@@ -21,6 +21,7 @@ signals:
 
 public slots:
     void startBroadcasting();
+    void stopBroadcasting();
     void setIsBroadcasting(bool arg);
 
 private:
