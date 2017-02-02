@@ -1,11 +1,12 @@
 TEMPLATE = app
 
-QT += qml quick widgets
+QT += qml quick widgets sql
 
 SOURCES += main.cpp \
     udpannouncer.cpp \
     mytcpserver.cpp \
-    backend.cpp
+    backend.cpp \
+    dbmanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,4 +19,5 @@ include(deployment.pri)
 HEADERS += \
     udpannouncer.h \
     mytcpserver.h \
-    backend.h
+    backend.h \
+    dbmanager.h

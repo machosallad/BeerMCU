@@ -1,10 +1,12 @@
 #include "mytcpserver.h"
+#include <QDebug>
 
 MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent)
 {
     m_tcpServer = new QTcpServer(this);
     m_signalMapper = new QSignalMapper(this);
     connect(m_tcpServer,SIGNAL(newConnection()),this,SLOT(newConnection()));
+    m_counter = 0;
 }
 
 MyTcpServer::~MyTcpServer()
@@ -49,8 +51,13 @@ void MyTcpServer::clientReadyRead()
     {
         qDebug() << "New client added with ID:" << parts[1];
         m_clientIDs.insert(clientSocket,parts[1]);
-
-        // TODO: Create new client and handle future packets there..
+    }
+    else if(parts.length() == 3)
+    {
+        QString str(parts[2]);
+        qDebug() << str;
+        m_counter++;
+        qDebug() << "Counter:" << m_counter;
     }
 }
 

@@ -28,6 +28,7 @@ private:
     QList<QTcpSocket*> m_clientConnections;
     QSignalMapper *m_signalMapper;
     QMap<QTcpSocket*,QString> m_clientIDs;
+    int m_counter;
 };
 
 #endif // MYTCPSERVER_H
