@@ -5,6 +5,7 @@ Backend::Backend(QObject *parent) : QObject(parent)
     m_udpAnnouncer = new UdpAnnouncer();
     m_tcpServer = new MyTcpServer();
     m_isRunnning = false;
+    m_dbManager = new DbManager(qApp->applicationDirPath()+"/"+"motherbeer.db");
 }
 
 bool Backend::isRunnning() const
@@ -35,4 +36,9 @@ void Backend::startStopServer()
         m_udpAnnouncer->startBroadcasting();
         m_tcpServer->startServer();
     }
+}
+
+DbManager *Backend::dbManager() const
+{
+    return m_dbManager;
 }

@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    //qmlRegisterUncreatableType<UdpAnnouncer>("machosallad", 1, 0, "UdpAnnouncer", "Not allowed to create");
+    qmlRegisterUncreatableType<DbManager>("machosallad", 1, 0, "DbManager", "Not allowed to create");
     engine.rootContext()->setContextProperty("backend", backend);
 
     return app.exec();
