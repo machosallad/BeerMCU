@@ -16,12 +16,15 @@ public:
     ~MyTcpServer();
 
 signals:
+    void userConnected(int id);
+    void newUserData(QString data);
 
 public slots:
     void newConnection();
     void clientReadyRead();
     void startServer();
     void stopServer();
+
 
 private:
     QTcpServer *m_tcpServer;

@@ -27,6 +27,8 @@ public slots:
     void setDbOpen(bool dbOpen);
     void setDbPath(QString dbPath);
 
+    QString SQLQuery(const QString &sqlquery);
+    bool InsertRecord(QString name);
 private:
     QSqlDatabase m_db;
     bool m_dbOpen;

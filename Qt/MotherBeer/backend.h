@@ -5,6 +5,7 @@
 #include "udpannouncer.h"
 #include "mytcpserver.h"
 #include "dbmanager.h"
+#include "userhandler.h"
 class Backend : public QObject
 {
     Q_OBJECT
@@ -14,14 +15,14 @@ public:
     explicit Backend(QObject *parent = 0);
 
     bool isRunnning() const;
-
     DbManager *dbManager() const;
+
+    UserHandler *userHandler() const;
 
 signals:
     void isRunnningChanged(bool isRunnning);
 
 public slots:
-
     void setIsRunnning(bool isRunnning);
     void startStopServer();
 
@@ -29,6 +30,7 @@ private:
     UdpAnnouncer *m_udpAnnouncer;
     MyTcpServer *m_tcpServer;
     DbManager *m_dbManager;
+    UserHandler *m_userHandler;
     bool m_isRunnning;
 };
 

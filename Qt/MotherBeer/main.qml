@@ -30,19 +30,59 @@ ApplicationWindow {
         onClicked: backend.startStopServer()
     }
 
-    statusBar: StatusBar
+
+    RowLayout
     {
-        RowLayout {
-            anchors.fill: parent
-            Text {
-                id: serverRunningText
-                text: backend.isRunnning ? "Server Running" : "Server not running"
+        id: userRowTen
+        Text{
+            text:"User #10"
+        }
+
+        TextField
+        {
+            id: idTexNameField
+            width: 100
+            onTextChanged: idTenSetNameButton.enabled = true
+        }
+
+        Button{
+            id: idTenSetNameButton
+            text: "Set"
+            enabled: false
+            onClicked:
+            {
+                usrTen.setUserName(idTexNameField.text);
+                enabled = false;
+                idTexNameField.focus = false;
             }
-            Text {
-                id: dbText
-                text: backend.dbManager.dbPath
+        }
+
+        Rectangle{
+            id: idTen
+            height: 20
+            width: height
+            color: usrTen.connected ? "green" : "red"
+            Text{
+                anchors.centerIn: parent
+                id: idTenText
+                text: usrTen.counter
             }
         }
     }
+
+    statusBar: StatusBar
+    {
+    RowLayout {
+        anchors.fill: parent
+        Text {
+            id: serverRunningText
+            text: backend.isRunnning ? "Server Running" : "Server not running"
+        }
+        Text {
+            id: dbText
+            text: backend.dbManager.dbPath
+        }
+    }
+}
 
 }

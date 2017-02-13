@@ -16,7 +16,6 @@ MyTcpServer::~MyTcpServer()
 
 void MyTcpServer::newConnection()
 {
-
     QTcpSocket *client = m_tcpServer->nextPendingConnection();
     qDebug() << "Got a new connection from: " << client->peerAddress().toString();
 
@@ -26,7 +25,6 @@ void MyTcpServer::newConnection()
     // Connect apppropiate signals/slots
     connect(client, SIGNAL(disconnected()), client, SLOT(deleteLater()));
     connect(client,SIGNAL(readyRead()),this,SLOT(clientReadyRead()));
-
 }
 
 /**
@@ -51,13 +49,12 @@ void MyTcpServer::clientReadyRead()
     {
         qDebug() << "New client added with ID:" << parts[1];
         m_clientIDs.insert(clientSocket,parts[1]);
+
+        emit userConnected(parts[1].toInt());
     }
-    else if(parts.length() == 3)
+    else
     {
-        QString str(parts[2]);
-        qDebug() << str;
-        m_counter++;
-        qDebug() << "Counter:" << m_counter;
+        emit newUserData(cmd);
     }
 }
 

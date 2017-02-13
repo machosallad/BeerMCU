@@ -6,7 +6,10 @@ SOURCES += main.cpp \
     udpannouncer.cpp \
     mytcpserver.cpp \
     backend.cpp \
-    dbmanager.cpp
+    dbmanager.cpp \
+    user.cpp \
+    userhandler.cpp \
+    requestmapper.cpp
 
 RESOURCES += qml.qrc
 
@@ -20,4 +23,16 @@ HEADERS += \
     udpannouncer.h \
     mytcpserver.h \
     backend.h \
-    dbmanager.h
+    dbmanager.h \
+    user.h \
+    userhandler.h \
+    requestmapper.h
+
+#---------------------------------------------------------------------------------------
+# The following lines include the sources of the QtWebAppLib library
+#---------------------------------------------------------------------------------------
+
+include(../QtWebApp/logging/logging.pri)
+include(../QtWebApp/httpserver/httpserver.pri)
+include(../QtWebApp/templateengine/templateengine.pri)
+# Not used: include(../QtWebApp/qtservice/qtservice.pri)

@@ -1,5 +1,9 @@
 #include "dbmanager.h"
 #include <QSqlError>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QSqlRecord>
 
 DbManager::DbManager(QString path, QObject *parent) : QObject(parent)
 {
@@ -12,16 +16,16 @@ DbManager::DbManager(QString path, QObject *parent) : QObject(parent)
 
     if (!m_db.open())
     {
-       qDebug() << "Error: connection with database fail";
-       setDbOpen(false);
+        qDebug() << "Error: connection with database fail";
+        setDbOpen(false);
     }
     else
     {
-       qDebug() << "Database: connection ok";
-       setDbOpen(true);
+        qDebug() << "Database: connection ok";
+        setDbOpen(true);
     }
 
-    if(checkIfTableExists("Timestamps"))
+    if(checkIfTableExists("Drinkstamps"))
     {
         qDebug() << "Table: timestamps is found!";
     }
@@ -53,13 +57,29 @@ bool DbManager::checkIfTableExists(QString table)
 bool DbManager::createTable()
 {
     QSqlQuery query;
-    bool res = query.exec("CREATE TABLE Timestamps "
-                "("
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                "name TEXT NOT NULL, "
-                "time DATETIME DEFAULT CURRENT_TIMESTAMP"
-                ");"
-               );
+    bool res = query.exec("CREATE TABLE Drinkstamps "
+                          "("
+                          "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                          "time DATETIME DEFAULT CURRENT_TIMESTAMP"
+                          ");"
+                          );
+
+//    bool res = query.exec("CREATE TABLE Drinkstamps "
+//                          "("
+//                          "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+//                          "name TEXT NOT NULL, "
+//                          "time DATETIME DEFAULT CURRENT_TIMESTAMP"
+//                          ");"
+//                          );
+
+    qDebug() << "Query result:" << query.lastError().text();
+    return res;
+}
+
+bool DbManager::InsertRecord(QString name)
+{
+    QSqlQuery query;
+    bool res = query.exec("INSERT INTO Drinkstamps DEFAULT VALUES");
 
     qDebug() << "Query result:" << query.lastError().text();
     return res;
@@ -87,4 +107,28 @@ void DbManager::setDbPath(QString dbPath)
 QString DbManager::dbPath() const
 {
     return m_dbPath;
+}
+
+QString DbManager::SQLQuery(const QString & sqlquery) {
+
+    QSqlQuery query;
+    query.setForwardOnly(true);
+    if (!query.exec(sqlquery))return QString();
+
+    QJsonDocument  json;
+    QJsonArray     recordsArray;
+
+    // Build the responce
+    while(query.next())
+    {
+        QJsonObject recordObject;
+        for(int x=0; x < query.record().count(); x++)
+        {
+            recordObject.insert( query.record().fieldName(x),QJsonValue::fromVariant(query.value(x)) );
+        }
+        recordsArray.push_back(recordObject);
+    }
+    json.setArray(recordsArray);
+
+    return json.toJson();
 }
