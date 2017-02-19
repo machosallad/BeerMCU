@@ -37,6 +37,14 @@ DbManager::DbManager(QString path, QObject *parent) : QObject(parent)
         else
             qDebug() << "Unable to create table!";
     }
+
+//    InsertRecord("Jesper");
+//    InsertRecord("Jesper");
+//    InsertRecord("Daniel");
+
+    QString q = "SELECT name, count(name) FROM Drinkstamps GROUP by name";
+    QString res = SQLQuery(q);
+    qDebug() << res;
 }
 
 DbManager::~DbManager()
@@ -57,20 +65,20 @@ bool DbManager::checkIfTableExists(QString table)
 bool DbManager::createTable()
 {
     QSqlQuery query;
-    bool res = query.exec("CREATE TABLE Drinkstamps "
-                          "("
-                          "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                          "time DATETIME DEFAULT CURRENT_TIMESTAMP"
-                          ");"
-                          );
-
 //    bool res = query.exec("CREATE TABLE Drinkstamps "
 //                          "("
 //                          "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                          "name TEXT NOT NULL, "
 //                          "time DATETIME DEFAULT CURRENT_TIMESTAMP"
 //                          ");"
 //                          );
+
+    bool res = query.exec("CREATE TABLE Drinkstamps "
+                          "("
+                          "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                          "name TEXT NOT NULL, "
+                          "time DATETIME DEFAULT CURRENT_TIMESTAMP"
+                          ");"
+                          );
 
     qDebug() << "Query result:" << query.lastError().text();
     return res;
@@ -79,7 +87,18 @@ bool DbManager::createTable()
 bool DbManager::InsertRecord(QString name)
 {
     QSqlQuery query;
-    bool res = query.exec("INSERT INTO Drinkstamps DEFAULT VALUES");
+
+    QString queryString = "INSERT INTO Drinkstamps (name) VALUES (:user)";
+
+    if( !query.prepare(queryString) )
+    {
+        qDebug() << "Prepare:" << query.lastError();
+        return false;
+    }
+
+    query.bindValue(":user", name);
+
+    bool res = query.exec();
 
     qDebug() << "Query result:" << query.lastError().text();
     return res;
@@ -129,6 +148,8 @@ QString DbManager::SQLQuery(const QString & sqlquery) {
         recordsArray.push_back(recordObject);
     }
     json.setArray(recordsArray);
+
+    qDebug() << "Query result:" << query.lastError().text();
 
     return json.toJson();
 }
