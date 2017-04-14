@@ -23,7 +23,17 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("backend", backend);
     engine.rootContext()->setContextProperty("userHandler",backend->userHandler());
+    engine.rootContext()->setContextProperty("usrOne",backend->userHandler()->usrOne());
+    engine.rootContext()->setContextProperty("usrTwo",backend->userHandler()->usrTwo());
+    engine.rootContext()->setContextProperty("usrThree",backend->userHandler()->usrThree());
+    engine.rootContext()->setContextProperty("usrFour",backend->userHandler()->usrFour());
+    engine.rootContext()->setContextProperty("usrFive",backend->userHandler()->usrFive());
+    engine.rootContext()->setContextProperty("usrSix",backend->userHandler()->usrSix());
+    engine.rootContext()->setContextProperty("usrSeven",backend->userHandler()->usrSeven());
+    engine.rootContext()->setContextProperty("usrEight",backend->userHandler()->usrEight());
+    engine.rootContext()->setContextProperty("usrNine",backend->userHandler()->usrNine());
     engine.rootContext()->setContextProperty("usrTen",backend->userHandler()->usrTen());
+    engine.rootContext()->setContextProperty("usrEleven",backend->userHandler()->usrEleven());
 
 
     return app.exec();

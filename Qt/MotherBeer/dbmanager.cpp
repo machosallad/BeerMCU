@@ -38,10 +38,6 @@ DbManager::DbManager(QString path, QObject *parent) : QObject(parent)
             qDebug() << "Unable to create table!";
     }
 
-//    InsertRecord("Jesper");
-//    InsertRecord("Jesper");
-//    InsertRecord("Daniel");
-
     QString q = "SELECT name, count(name) FROM Drinkstamps GROUP by name";
     QString res = SQLQuery(q);
     qDebug() << res;
@@ -75,7 +71,7 @@ bool DbManager::createTable()
     bool res = query.exec("CREATE TABLE Drinkstamps "
                           "("
                           "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                          "name TEXT NOT NULL, "
+                          "user TEXT NOT NULL, "
                           "time DATETIME DEFAULT CURRENT_TIMESTAMP"
                           ");"
                           );
@@ -88,7 +84,7 @@ bool DbManager::InsertRecord(QString name)
 {
     QSqlQuery query;
 
-    QString queryString = "INSERT INTO Drinkstamps (name) VALUES (:user)";
+    QString queryString = "INSERT INTO Drinkstamps (user) VALUES (:name)";
 
     if( !query.prepare(queryString) )
     {
@@ -96,7 +92,7 @@ bool DbManager::InsertRecord(QString name)
         return false;
     }
 
-    query.bindValue(":user", name);
+    query.bindValue(":name", name);
 
     bool res = query.exec();
 

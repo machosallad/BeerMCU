@@ -30,42 +30,83 @@ ApplicationWindow {
         onClicked: backend.startStopServer()
     }
 
-
-    RowLayout
+    ColumnLayout
     {
-        id: userRowTen
-        Text{
-            text:"User #10"
-        }
 
-        TextField
+        RowLayout
         {
-            id: idTexNameField
-            width: 100
-            onTextChanged: idTenSetNameButton.enabled = true
-        }
+            id: userRowTen
+            Text{
+                text:"User #10"
+            }
 
-        Button{
-            id: idTenSetNameButton
-            text: "Set"
-            enabled: false
-            onClicked:
+            TextField
             {
-                usrTen.setUserName(idTexNameField.text);
-                enabled = false;
-                idTexNameField.focus = false;
+                id: idTexNameField
+                width: 100
+                onTextChanged: idTenSetNameButton.enabled = true
+            }
+
+            Button{
+                id: idTenSetNameButton
+                text: "Set"
+                enabled: false
+                onClicked:
+                {
+                    usrTen.setUserName(idTexNameField.text);
+                    enabled = false;
+                    idTexNameField.focus = false;
+                }
+            }
+
+            Rectangle{
+                id: idTen
+                height: 20
+                width: height
+                color: usrTen.connected ? "green" : "red"
+                Text{
+                    anchors.centerIn: parent
+                    id: idTenText
+                    text: usrTen.counter
+                }
             }
         }
-
-        Rectangle{
-            id: idTen
-            height: 20
-            width: height
-            color: usrTen.connected ? "green" : "red"
+        RowLayout
+        {
+            id: userRowOne
             Text{
-                anchors.centerIn: parent
-                id: idTenText
-                text: usrTen.counter
+                text:"User #1"
+            }
+
+            TextField
+            {
+                id: idOneNameField
+                width: 100
+                onTextChanged: idOneSetNameButton.enabled = true
+            }
+
+            Button{
+                id: idOneSetNameButton
+                text: "Set"
+                enabled: false
+                onClicked:
+                {
+                    usrOne.setUserName(idOneNameField.text);
+                    enabled = false;
+                    idOneNameField.focus = false;
+                }
+            }
+
+            Rectangle{
+                id: idOne
+                height: 20
+                width: height
+                color: usrOne.connected ? "green" : "red"
+                Text{
+                    anchors.centerIn: parent
+                    id: idOneText
+                    text: usrOne.counter
+                }
             }
         }
     }
