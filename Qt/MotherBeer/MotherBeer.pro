@@ -1,7 +1,7 @@
 TEMPLATE = app
 
 QT += qml quick widgets sql
-
+INCLUDEPATH +=$$PWD/../httpserver
 SOURCES += main.cpp \
     udpannouncer.cpp \
     mytcpserver.cpp \

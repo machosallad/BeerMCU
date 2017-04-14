@@ -40,7 +40,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
 //            yyyy-MM-dd
             QString q;
             if(start.length() > 0 && end.length() > 0)
-                q = "SELECT * FROM Drinkstamps WHERE time BETWEEN '"+ start +"' AND '"+end + "'";
+                q = "SELECT * FROM Drinkstamps WHERE time BETWEEN '"+ start +"' AND '"+end + "' GROUP by user";
             else
                 q = "SELECT * FROM Drinkstamps";
 
