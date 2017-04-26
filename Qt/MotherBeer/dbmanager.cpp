@@ -37,10 +37,6 @@ DbManager::DbManager(QString path, QObject *parent) : QObject(parent)
         else
             qDebug() << "Unable to create table!";
     }
-
-    QString q = "SELECT name, count(name) FROM Drinkstamps GROUP by user";
-    QString res = SQLQuery(q);
-    qDebug() << res;
 }
 
 DbManager::~DbManager()

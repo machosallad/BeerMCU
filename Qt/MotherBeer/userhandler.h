@@ -3,6 +3,10 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QFile>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonArray>
 #include "user.h"
 #include "dbmanager.h"
 
@@ -48,6 +52,7 @@ private:
     void setUserStatus(int id, bool status);
     QHash <int,NodeUser*> m_userHash;
     void handleCommand(int id, int cmd, int val);
+    void updateLogFile();
     DbManager* m_dbHandle;
 };
 

@@ -15,6 +15,7 @@ UserHandler::UserHandler(DbManager *dbManager, QObject *parent) : QObject(parent
     m_userHash[11] = new NodeUser(11);
 
     m_dbHandle = dbManager;
+    updateLogFile();
 }
 
 UserHandler::~UserHandler()
@@ -111,8 +112,42 @@ void UserHandler::handleCommand(int id, int cmd, int val)
         if(val == 0)
         {
             m_userHash[id]->setCounter(m_userHash[id]->counter() + 1);
-            m_dbHandle->InsertRecord(m_userHash[id]->userName());
+            if(m_userHash[id]->userName().length() > 0) // Store only when the user has a "valid" name (longer than zero)
+                m_dbHandle->InsertRecord(m_userHash[id]->userName().toUpper());
+
+            updateLogFile();
         }
+    }
+}
+
+void UserHandler::updateLogFile()
+{
+    //Get number of drinks per person (Jesper: 10, Affe: 12 etc.)
+    QString q = "SELECT user, count(user) AS count FROM Drinkstamps GROUP by user";
+    QString res = m_dbHandle->SQLQuery(q);
+
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(),&err);
+    QJsonArray jsonArray = doc.array();
+
+    //Write result to file.
+    QFile beerFile("beerList.txt");
+    beerFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
+    if(!beerFile.isOpen()){
+        qDebug() << "- Error, unable to open" << "beerList.txt" << "for output";
+    }
+    else
+    {
+        QTextStream outStream(&beerFile);
+        QString line;
+
+        foreach (const QJsonValue &value, jsonArray) {
+            QJsonObject obj = value.toObject();
+            line += obj["user"].toString() +": " + QString::number(obj["count"].toInt()) + ", ";
+        }
+        line.chop(2);
+        outStream << line;
+        beerFile.close();
     }
 }
 
