@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
     Backend *backend = new Backend();
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     qmlRegisterUncreatableType<DbManager>("machosallad", 1, 0, "DbManager", "Not allowed to create");
     qmlRegisterUncreatableType<NodeUser>("machosallad", 1, 0, "NodeUser", "Not allowed to create");
@@ -35,6 +34,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("usrTen",backend->userHandler()->usrTen());
     engine.rootContext()->setContextProperty("usrEleven",backend->userHandler()->usrEleven());
 
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();
 }

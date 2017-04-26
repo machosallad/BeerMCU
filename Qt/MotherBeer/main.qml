@@ -7,7 +7,7 @@ import QtQuick.Layouts 1.1
 ApplicationWindow {
     id: applicationWindow1
     title: qsTr("MotherBeer")
-    width: 600
+    width: 350
     height: 500
     visible: true
 
