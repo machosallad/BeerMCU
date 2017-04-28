@@ -54,6 +54,7 @@ private:
     void handleCommand(int id, int cmd, int val);
     void updateLogFile();
     DbManager* m_dbHandle;
+    void updateCountFile();
 };
 
 

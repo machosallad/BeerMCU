@@ -16,6 +16,7 @@ UserHandler::UserHandler(DbManager *dbManager, QObject *parent) : QObject(parent
 
     m_dbHandle = dbManager;
     updateLogFile();
+    updateCountFile();
 }
 
 UserHandler::~UserHandler()
@@ -146,6 +147,36 @@ void UserHandler::updateLogFile()
             line += obj["user"].toString() +": " + QString::number(obj["count"].toInt()) + ", ";
         }
         line.chop(2);
+        outStream << line;
+        beerFile.close();
+    }
+}
+
+void UserHandler::updateCountFile()
+{
+    //Get number of drinks per person (Jesper: 10, Affe: 12 etc.)
+    QString q = "SELECT time, count(time) AS total FROM Drinkstamps";
+    QString res = m_dbHandle->SQLQuery(q);
+
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(),&err);
+    QJsonArray jsonArray = doc.array();
+
+    //Write result to file.
+    QFile beerFile("totalBeerList.txt");
+    beerFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
+    if(!beerFile.isOpen()){
+        qDebug() << "- Error, unable to open" << "beerList.txt" << "for output";
+    }
+    else
+    {
+        QTextStream outStream(&beerFile);
+        QString line;
+
+        foreach (const QJsonValue &value, jsonArray) {
+            QJsonObject obj = value.toObject();
+            line += QString::number(obj["total"].toInt());
+        }
         outStream << line;
         beerFile.close();
     }

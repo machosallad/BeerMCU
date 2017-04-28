@@ -43,8 +43,7 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response)
                 q = "SELECT * FROM Drinkstamps WHERE time BETWEEN '"+ start +"' AND '"+end + "' GROUP by user";
             else
             {
-//                q = "SELECT * FROM Drinkstamps";
-                q = "SELECT user, group_concat(time) AS [timestamps] FROM Drinkstamps GROUP BY user";
+                q = "SELECT user, group_concat(time) AS [timestamps], count(time) AS total FROM Drinkstamps GROUP BY user";
             }
 
             response.write(m_dbhandle->SQLQuery(q).toLocal8Bit(),true);
