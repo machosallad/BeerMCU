@@ -47,6 +47,7 @@ public slots:
     void newUser(int id);
     void clientLost(int id);
     void userCommand(QString cmd);
+    void setDiscoverMode(bool arg);
 
 private:
     void setUserStatus(int id, bool status);
@@ -55,6 +56,7 @@ private:
     void updateLogFile();
     DbManager* m_dbHandle;
     void updateCountFile();
+    bool m_discoverMode;
 };
 
 

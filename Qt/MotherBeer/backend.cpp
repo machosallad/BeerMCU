@@ -46,6 +46,7 @@ QString searchConfigFile()
 
 Backend::Backend(QObject *parent) : QObject(parent)
 {
+    m_isDiscovering = true;
     m_udpAnnouncer = new UdpAnnouncer();
     m_tcpServer = new MyTcpServer();
     m_isRunnning = false;
@@ -98,9 +99,30 @@ void Backend::startStopServer()
         m_tcpServer->startServer();
     }
 }
+
+void Backend::startStopDiscover()
+{
+    setIsDiscovering(!m_isDiscovering);
+}
+
+void Backend::setIsDiscovering(bool arg)
+{
+    if (m_isDiscovering == arg)
+        return;
+
+    m_userHandler->setDiscoverMode(arg);
+
+    m_isDiscovering = arg;
+    emit isDiscoveringChanged(arg);
+}
 UserHandler *Backend::userHandler() const
 {
     return m_userHandler;
+}
+
+bool Backend::isDiscovering() const
+{
+    return m_isDiscovering;
 }
 
 DbManager *Backend::dbManager() const

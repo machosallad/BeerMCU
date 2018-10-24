@@ -6,6 +6,7 @@ NodeUser::NodeUser(int id, QObject *parent) : QObject(parent)
     m_userName = "";
     m_connected = false;
     m_counter = 0;
+    m_light = true;
 }
 
 NodeUser::~NodeUser()
@@ -31,6 +32,11 @@ int NodeUser::id() const
 int NodeUser::counter() const
 {
     return m_counter;
+}
+
+bool NodeUser::light() const
+{
+    return m_light;
 }
 
 void NodeUser::setUserName(QString arg)
@@ -69,5 +75,14 @@ void NodeUser::setCounter(int arg)
 
     m_counter = arg;
     emit counterChanged(arg);
+}
+
+void NodeUser::setLight(bool arg)
+{
+    if (m_light == arg)
+        return;
+
+    m_light = arg;
+    emit lightChanged(arg);
 }
 

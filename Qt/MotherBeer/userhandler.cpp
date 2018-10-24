@@ -17,6 +17,7 @@ UserHandler::UserHandler(DbManager *dbManager, QObject *parent) : QObject(parent
     m_dbHandle = dbManager;
     updateLogFile();
     updateCountFile();
+    m_discoverMode = true;
 }
 
 UserHandler::~UserHandler()
@@ -97,13 +98,18 @@ void UserHandler::userCommand(QString cmd)
     if(parts.length() == 4)
     {
         qDebug() << "Received Command:" << cmd;
-//        parts[0] == "ID"
-//        parts[1] == ID_NR
-//        parts[2] == KEY_NR
-//        parts[3] == KEY_VAL
+        //        parts[0] == "ID"
+        //        parts[1] == ID_NR
+        //        parts[2] == KEY_NR
+        //        parts[3] == KEY_VAL
 
         handleCommand(parts[1].toInt(),parts[2].toInt(),parts[3].toInt());
     }
+}
+
+void UserHandler::setDiscoverMode(bool arg)
+{
+    m_discoverMode = arg;
 }
 
 void UserHandler::handleCommand(int id, int cmd, int val)
@@ -112,11 +118,18 @@ void UserHandler::handleCommand(int id, int cmd, int val)
     {
         if(val == 0)
         {
-            m_userHash[id]->setCounter(m_userHash[id]->counter() + 1);
-            if(m_userHash[id]->userName().length() > 0) // Store only when the user has a "valid" name (longer than zero)
-                m_dbHandle->InsertRecord(m_userHash[id]->userName().toUpper());
+            if(!m_discoverMode)
+            {
+                m_userHash[id]->setCounter(m_userHash[id]->counter() + 1);
+                if(m_userHash[id]->userName().length() > 0) // Store only when the user has a "valid" name (longer than zero)
+                    m_dbHandle->InsertRecord(m_userHash[id]->userName().toUpper());
 
-            updateLogFile();
+                updateLogFile();
+            }
+            else
+            {
+                m_userHash[id]->setLight(!m_userHash[id]->light());
+            }
         }
     }
 }

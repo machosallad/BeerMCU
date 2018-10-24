@@ -26,11 +26,31 @@ ApplicationWindow {
     }
 
     Button{
+        id: isRunningBtn
         text: backend.isRunnning ? "Stop server" : "Start server"
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
         onClicked: backend.startStopServer()
+    }
+
+    Button{
+        anchors.left: isRunningBtn.right
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+        text: backend.isDiscovering ? "Stop discover" : "Start discover"
+        onClicked: backend.startStopDiscover()
+    }
+
+    Text
+    {
+        text: "IN DISCOVER MODE - NO VALUES WILL BE STORED"
+        visible: backend.isDiscovering
+        font.pixelSize: 12
+        anchors.bottomMargin: 5
+        anchors.leftMargin: 5
+        anchors.left: parent.left
+        anchors.bottom: isRunningBtn.top
     }
 
     ColumnLayout
@@ -77,6 +97,12 @@ ApplicationWindow {
                     text: usrOne.counter
                 }
             }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrOne.light ? "blue" : "orange"
+            }
         }
 
         RowLayout
@@ -115,6 +141,12 @@ ApplicationWindow {
                     id: idTwoText
                     text: usrTwo.counter
                 }
+            }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrTwo.light ? "blue" : "orange"
             }
         }
 
@@ -155,6 +187,12 @@ ApplicationWindow {
                     text: usrThree.counter
                 }
             }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrThree.light ? "blue" : "orange"
+            }
         }
 
         RowLayout
@@ -193,6 +231,12 @@ ApplicationWindow {
                     id: idFourText
                     text: usrFour.counter
                 }
+            }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrFour.light ? "blue" : "orange"
             }
         }
 
@@ -233,6 +277,12 @@ ApplicationWindow {
                     text: usrFive.counter
                 }
             }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrFive.light ? "blue" : "orange"
+            }
         }
 
         RowLayout
@@ -271,6 +321,12 @@ ApplicationWindow {
                     id: idSixText
                     text: usrSix.counter
                 }
+            }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrSix.light ? "blue" : "orange"
             }
         }
 
@@ -311,6 +367,12 @@ ApplicationWindow {
                     text: usrSeven.counter
                 }
             }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrSeven.light ? "blue" : "orange"
+            }
         }
 
         RowLayout
@@ -349,6 +411,12 @@ ApplicationWindow {
                     id: idEightText
                     text: usrEight.counter
                 }
+            }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrEight.light ? "blue" : "orange"
             }
         }
 
@@ -389,6 +457,12 @@ ApplicationWindow {
                     text: usrNine.counter
                 }
             }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrNine.light ? "blue" : "orange"
+            }
         }
 
         RowLayout
@@ -428,6 +502,12 @@ ApplicationWindow {
                     text: usrTen.counter
                 }
             }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrTen.light ? "blue" : "orange"
+            }
         }
 
         RowLayout
@@ -466,6 +546,12 @@ ApplicationWindow {
                     id: idElevenText
                     text: usrEleven.counter
                 }
+            }
+
+            Rectangle{
+                height: 20
+                width: height
+                color: usrEleven.light ? "blue" : "orange"
             }
         }
     }
